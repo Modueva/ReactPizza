@@ -1,8 +1,21 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSort } from '../../Redux/slices/filterSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSort, setSort } from '../../Redux/slices/filterSlice';
 
-const list = [
+// type SortItem = {
+//   name: string;
+//   sortProperty: SortPropertyEnum;
+// };
+
+// type PopupClick = MouseEvent & {
+//   path: Node[];
+// };
+
+// type SortPopupProps = {
+//   value: SortType;
+// };
+
+export const sortList = [
   { name: 'популярности (DESC)', sortProperty: 'rating' },
   { name: 'популярности (ASC)', sortProperty: '-rating' },
   { name: 'цене (DESC)', sortProperty: 'price' },
@@ -11,10 +24,12 @@ const list = [
   { name: 'алфавиту (ASC)', sortProperty: '-title' },
 ];
 
-function Sort() {
+export const Sort = React.memo(({value}) => {
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filterSlice.sort);
-  const sortRef = React.useRef();
+  const sort = useSelector(selectSort);
+
+  // popup-сортировки error
+  const sortRef = React.useRef(null);
 
   const [open, setOpen] = React.useState(false);
 
@@ -23,17 +38,15 @@ function Sort() {
     setOpen(false);
   };
 
+  // Это часть кода не работает cрытие/показ popup-сортировки
   React.useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.path.includes(sortRef.current)) {
+      if ( !event.path.includes(sortRef.current)) {
         setOpen(false);
       }
     }
-    
     document.body.addEventListener('click', handleClickOutside)
-    return () =>{
-      document.body.removeEventListener('click', handleClickOutside)
-    }
+    return () => document.body.removeEventListener('click', handleClickOutside)
   }, []);
 
   return (
@@ -56,7 +69,7 @@ function Sort() {
       {open && (
         <div className="sort__popup">
           <ul>
-            {list.map((obj, i) => (
+            {sortList.map((obj, i) => (
               <li
                 key={i}
                 onClick={() => onClickListItem(obj)}
@@ -69,6 +82,6 @@ function Sort() {
       )}
     </div>
   );
-}
+})
 
 export default Sort;
