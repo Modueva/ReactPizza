@@ -6,10 +6,11 @@ import { clearItem, selectCart } from '../Redux/slices/cartSlice';
 import CartEmpty from '../components/CartEmpty';
 
 
-function Cart() {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const {totalPrice, items} = useSelector(selectCart);
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0)
 
   const onClickClear = () => {
     if(window.confirm('Отчистить корзину? ')) {
@@ -23,9 +24,9 @@ function Cart() {
 
   return (
     <div className="container container--cart">
-      <div class="cart">
-        <div class="cart__top">
-          <h2 class="content__title">
+      <div className="cart">
+        <div className="cart__top">
+          <h2 className="content__title">
             <svg
               width="18"
               height="18"
@@ -53,7 +54,7 @@ function Cart() {
             </svg>
             Корзина
           </h2>
-          <div onClick={onClickClear} class="cart__clear">
+          <div onClick={onClickClear} className="cart__clear">
             <svg
               width="20"
               height="20"
@@ -89,13 +90,13 @@ function Cart() {
             <span>Очистить корзину</span>
           </div>
         </div>
-        <div class="content__items">
-          {items.map((item) => (
+        <div className="content__items">
+          {items.map((item: any) => (
             <CartItem key={item.id} {...item}/>
           ))}
         </div>
-        <div class="cart__bottom">
-          <div class="cart__bottom-details">
+        <div className="cart__bottom">
+          <div className="cart__bottom-details">
             <span>
               {' '}
               Всего пицц: <b>{totalCount} шт.</b>{' '}
@@ -105,8 +106,8 @@ function Cart() {
               Сумма заказа: <b>{totalPrice} ₽</b>{' '}
             </span>
           </div>
-          <div class="cart__bottom-buttons">
-            <NavLink to="/" class="button button--outline button--add go-back-btn">
+          <div className="cart__bottom-buttons">
+            <NavLink to="/" className="button button--outline button--add go-back-btn">
               <svg
                 width="8"
                 height="14"
@@ -123,7 +124,7 @@ function Cart() {
 
               <span>Вернуться назад</span>
             </NavLink>
-            <div class="button pay-btn">
+            <div className="button pay-btn">
               <span>Оплатить сейчас</span>
             </div>
           </div>

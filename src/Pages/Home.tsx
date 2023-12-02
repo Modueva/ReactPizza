@@ -14,10 +14,9 @@ import PizzaBlock from '../components/pizzaBlock/PizzaBlock';
 import Skeleton from '../components/pizzaBlock/Skeleton';
 import Sort, { sortList } from '../components/sort/Sort';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
 import { fetchPizzas, selectPizzaData } from '../Redux/slices/pizzaSlice';
 
-function Home() {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false); //error
@@ -26,12 +25,12 @@ function Home() {
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 
-  const onClickCategory = (id) => {
-    dispatch(setCategoryId(id));
+  const onClickCategory = (index: number) => {
+    dispatch(setCategoryId(index));
   };
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   const getPizzas = async () => {
@@ -41,6 +40,7 @@ function Home() {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -136,7 +136,7 @@ function Home() {
   //   isMounted.current = true;
   // }, [])
 
-  const pizzas = items.map((obj) => (
+  const pizzas = items.map((obj: any) => (
     <NavLink  key={obj.id} to={`/pizza/${obj.id}`}>
       <PizzaBlock  {...obj} />{' '}
     </NavLink>

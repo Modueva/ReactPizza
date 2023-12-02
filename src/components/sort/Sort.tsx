@@ -2,20 +2,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSort, setSort } from '../../Redux/slices/filterSlice';
 
-// type SortItem = {
-//   name: string;
-//   sortProperty: SortPropertyEnum;
-// };
+type SortItem = {
+  name: string;
+  sortProperty: string;
+};
 
-// type PopupClick = MouseEvent & {
-//   path: Node[];
-// };
-
-// type SortPopupProps = {
-//   value: SortType;
-// };
-
-export const sortList = [
+export const sortList: SortItem[]  = [
   { name: 'популярности (DESC)', sortProperty: 'rating' },
   { name: 'популярности (ASC)', sortProperty: '-rating' },
   { name: 'цене (DESC)', sortProperty: 'price' },
@@ -24,23 +16,23 @@ export const sortList = [
   { name: 'алфавиту (ASC)', sortProperty: '-title' },
 ];
 
-export const Sort = React.memo(({value}) => {
+export const Sort = React.memo(() => { //{value}
   const dispatch = useDispatch();
   const sort = useSelector(selectSort);
 
   // popup-сортировки error
-  const sortRef = React.useRef(null);
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = React.useState(false);
 
-  const onClickListItem = (obj) => {
+  const onClickListItem = (obj: SortItem) => {
     dispatch(setSort(obj));
     setOpen(false);
   };
 
   // Это часть кода не работает cрытие/показ popup-сортировки
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if ( !event.path.includes(sortRef.current)) {
         setOpen(false);
       }

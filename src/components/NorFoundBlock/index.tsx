@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './NotFoundBlock.module.scss';
 
-function NorFoundBlock() {
+const NorFoundBlock: React.FC = () => {
   return (
     <div className={s.root}>
       <h1>
@@ -11,7 +11,7 @@ function NorFoundBlock() {
       </h1>
       <h3 className={s.description}>К сожелени данная страница отсутствует</h3>
     </div>
-    
+
   );
 }
 

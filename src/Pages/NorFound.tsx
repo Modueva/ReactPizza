@@ -1,10 +1,6 @@
 import React from 'react'
 import NorFoundBlock from '../components/NorFoundBlock'
 
-function NorFound() {
-  return (
-    <NorFoundBlock/>
-  )
-}
+const  NorFound: React.FC = () => <NorFoundBlock/>
 
 export default NorFound
