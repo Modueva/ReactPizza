@@ -19,15 +19,15 @@ import { fetchPizzas, selectPizzaData } from '../Redux/slices/pizzaSlice';
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isSearch = React.useRef(false); //error
+  // const isSearch = React.useRef(false); //error
   const isMounted = React.useRef(false);
 
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 
-  const onClickCategory = (index: number) => {
+  const onClickCategory = React.useCallback((index: number) => {
     dispatch(setCategoryId(index));
-  };
+  }, []);
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -99,25 +99,23 @@ const Home: React.FC = () => {
   //   navigate(`?${queryString}`);
   // }, [categoryId, sort.sortProperty, currentPage]);
 
-  // React.useEffect(() => {
-  //   if (isMounted.current) {
-  //     const params = {
-  //       categoryId: categoryId > 0 ? categoryId : null,
-  //       sortProperty: sort.sortProperty,
-  //       currentPage,
-  //     };
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const params = {
+        categoryId: categoryId > 0 ? categoryId : null,
+        sortProperty: sort.sortProperty,
+        currentPage,
+      };
 
-  //     const queryString = qs.stringify(params, { skipNulls: true });
+      const queryString = qs.stringify(params, { skipNulls: true });
 
-  //     navigate(`/?${queryString}`)
-  //   }
+      navigate(`/?${queryString}`)
+    }
 
-  //   if (!window.location.search) {
-  //         fetchPizzas();
-  //       }
-  // });
-
-  // start
+    if (!window.location.search) {
+          fetchPizzas();
+        }
+  },[categoryId, sort.sortProperty,searchValue,currentPage]);
 
   React.useEffect(() => {
     getPizzas();
